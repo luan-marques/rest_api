@@ -49,7 +49,7 @@ app.use('/teste', (req, res, next) => {
 
     res.status(200).send({
 
-        mensagem: "Ok, deu certo!"
+        mensagem: "Ok, Conectado!!"
 
     });
 
