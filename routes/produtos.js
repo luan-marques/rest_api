@@ -16,7 +16,23 @@ mysql.getConnection((error, conn)=> {
 
         (error, resultado, field) =>{
             if(error) {return res.status(500).send({ error: error })}
-        return res.status(200).send({response: resultado})
+            const response = {
+                quantidade: resultado.length,
+                Produtos: resultado.map(prod =>{
+                    return {
+                        id_produto: prod.id_produto,
+                        nome: prod.nome,
+                        preco: prod.preco,
+                        request: {
+                            tipo: 'GET',
+                            descricao: 'Retorna todos os produtos',
+                            url: 'http://localhost:3000/produtos/' + prod.id_produto
+                        }
+                    }
+                })
+            }
+
+        return res.status(200).send({response})
         }
 
     )
@@ -38,6 +54,23 @@ mysql.getConnection((error, conn) => {
             conn.release(); 
 
             if(error) {return res.status(500).send({error: error})}
+           
+            const response = {
+                mensage: 'Produto inserido com sucesso!!',
+                produtoCriado: {
+                    id_produto: resultado.id_produto,
+                    nome: req.body.nome,
+                    preco: req.body.preco,
+
+                    request: {
+                        tipo: 'GET',
+                        descricao: '',
+                        url: ''
+                    }
+                }
+            }
+            
+               
             
 
             res.status(201).send({
