@@ -3,6 +3,32 @@ const router = express.Router();
 
 // RETORNA TODOS OS PEDIDOS
 router.get('/', (req, res, next) => {
+    mysql.getConnection((error, conn) =>{
+        if(error){return.status(500).send({error: error })}
+        conn.query(
+            'SELECT * FROM pedidos;',
+            (error, result, fields) =>{
+                if(error) {return res.status(500).send ({error: error})}
+                const response = {
+                    quantidade: result.length,
+                    pedidos: result.map(pedido =>{
+                        return {
+                            id_pedido: pedido.id_pedido,
+                            id_produto: pedido.id_produto,
+                            quantidade: pedido.quantidade,
+                            request: {
+                                tipo: 'GET',
+                                descricao: 'Retorna os detalhes de um pedido',
+                                url: 'http://localhost:3000/pedidos/' + pedidos.id_pedido
+                            }
+
+                        }
+                    })
+                }
+            }
+        )
+    })
+
     res.status(200).send({
         mensagem:'Retorna os pedidos'
     });
