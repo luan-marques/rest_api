@@ -1,0 +1,11 @@
+Para imagens
+
+*no body, utilizar o form-data do localhost:3000/pedidos para adicionar o arquivo de imagem do produto*
+
+-------------- Exemplo --------------
+
+key:                     value:
+nome                     ventilador
+preco                    100.55
+produto_imagem           filename
+    
