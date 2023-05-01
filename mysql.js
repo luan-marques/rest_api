@@ -1,6 +1,4 @@
-
-
-var mysql = require('mysql2');
+var mysql = require('mysql');
 
 var pool = mysql.createPool({
 
