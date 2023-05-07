@@ -109,7 +109,7 @@ router.get('/', (req, res, next) => {
                 //conn.release();
                 if (error) { return res.status(500).send({ error: error }) }
 
-                if (result.lenght == 0) {
+                if (result.length == 0) {
                     return res.status(404).send({
                         mensagem: 'ID não existe!'
                     })
@@ -124,7 +124,7 @@ router.get('/', (req, res, next) => {
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna todos os produtos',
-                            url: 'http://localhost:3000/produtos'
+                            url: 'http://localhost:3000/produtos/'
                         }
                     }
                 }
