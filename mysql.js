@@ -1,5 +1,7 @@
-var mysql = require('mysql');
+var mysql = require('mysql'); //var de requisição do bd
 
+
+//puxa os dados do banco de dados
 var pool = mysql.createPool({
     "user" : process.env.MYSQL_USER,
     "password" : process.env.MYSQL_PASSWORD,

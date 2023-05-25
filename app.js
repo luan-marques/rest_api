@@ -1,8 +1,11 @@
+
+//dependencias instaladas
+
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const rotaProdutos = require('./routes/produtos');
+const rotaProdutos = require('./routes/musicas');
 const rotaPedidos = require('./routes/pedidos');
 const rotaUsuarios = require('./routes/usuarios');
 
@@ -24,7 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/produtos', rotaProdutos);
+app.use('/produtos', rotaMusicas);
 app.use('/pedidos', rotaPedidos);
 app.use('/usuarios', rotaUsuarios);
 

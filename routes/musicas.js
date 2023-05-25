@@ -34,21 +34,20 @@ router.get('/', (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
         conn.query(
-            'SELECT * FROM Produtos;',
+            'SELECT * FROM Musicas;',
             (error, result, field) => {
                 if (error) { return res.status(500).send({ error: error }) }
                 const response = {
                     quantidade: result.length,
                     Produtos: result.map(prod => {
                         return {
-                            id_produto: prod.id_produto,
+                            id_musica: prod.id_musica,
                             nome: prod.nome,
-                            preco: prod.preco,
-                            imagem_produto: prod.imagem_produto,
+                            musica: prod.musica,
                             request: {
                                 tipo: 'GET',
-                                descricao: 'Retorna um produto com base no id',
-                                url: 'http://localhost:3000/produtos/' + prod.id_produto
+                                descricao: 'Retorna uma música com base no id',
+                                url: 'http://localhost:3000/produtos/' + prod.id_musica
                             }
                         }
                     })
@@ -60,15 +59,14 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/', upload.single('imagem_produto'), (req, res, next) => {
+router.post('/', upload.single('musica'), (req, res, next) => {
     console.log(req.file);
      mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
         conn.query(
-            'INSERT INTO Produtos (nome, preco, imagem_produto) VALUES(?, ?, ?);',
+            'INSERT INTO Musicas (nome, musica) VALUES(?, ?);',
             [
                 req.body.nome, 
-                req.body.preco,
                 req.file.path
             ],
             (error, result, field) => {
@@ -77,15 +75,15 @@ router.post('/', upload.single('imagem_produto'), (req, res, next) => {
                 if (error) { return res.status(500).send({ error: error }) }
 
                 const response = {
-                    mensage: 'Produto inserido com sucesso!!',
-                    produtoCriado: {
-                        id_produto: result.id_produto,
+                    mensage: 'Música inserida com sucesso!!',
+                    musicaCriada: {
+                        id_musica: result.id_musica,
                         nome: req.body.nome,
                         preco: req.body.preco,
-                        imagem_produto: req.file.path, 
+                        musica: req.file.path, 
                         request: {
                             tipo: 'POST',
-                            descricao: 'Insere um produto',
+                            descricao: 'Insere uma música',
                             url: 'http://localhost:3000/produtos'
                         }
                     }
@@ -104,8 +102,8 @@ router.get('/', (req, res, next) => {
         if (error) { return res.status(500).send({ error: error }) }
         conn.query(
 
-            'SELECT * FROM Produtos WHERE id_produto = ?;',
-            [req.params.id_produto],
+            'SELECT * FROM Musicas WHERE id_musica = ?;',
+            [req.params.id_musica],
             (error, result, fields) => {
                 //conn.release();
                 if (error) { return res.status(500).send({ error: error }) }
@@ -121,10 +119,10 @@ router.get('/', (req, res, next) => {
                         id_produto: result[0].id_produto,
                         nome: result[0].nome,
                         preco: result[0].preco,
-                        imagem_produto: result[0].imagem_produto,
+                        musica: result[0].musica,
                         request: {
                             tipo: 'GET',
-                            descricao: 'Retorna todos os produtos',
+                            descricao: 'Retorna todas as músicas',
                             url: 'http://localhost:3000/produtos/'
                         }
                     }
@@ -141,21 +139,21 @@ router.patch('/', login, (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
         conn.query(
-            'UPDATE Produtos SET nome = ?, preco = ? WHERE id_produto = ?',
-            [req.body.nome, req.body.preco, req.body.id_produto],
+            'UPDATE Musicas SET nome = ? WHERE id_musica = ?',
+            [req.body.nome, req.body.preco, req.body.id_musica],
             (error, result, field) => {
                 conn.release();
                 if (error) { return res.status(500).send({ error: error }) }
 
                 const response = {
                     produtoAtualizado: {
-                        id_produto: req.body.id_produto,
+                        id_musica: req.body.id_musica,
                         nome: req.body.nome,
                         preco: req.body.preco,
                         request: {
                             tipo: 'GET',
-                            descricao: 'Retorna os detalhes de um produto',
-                            url: 'http://localhost:3000/produtos/' + req.body.id_produto
+                            descricao: 'Retorna os detalhes de uma música',
+                            url: 'http://localhost:3000/produtos/' + req.body.id_musica
                         }
                     }
                 }
@@ -174,19 +172,18 @@ router.delete('/', login, (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
         conn.query(
-            'DELETE FROM Produtos WHERE id_produto = ?',
-            [req.body.id_produto],
+            'DELETE FROM Produtos WHERE id_musica = ?',
+            [req.body.id_musica],
             (error, result, field) => {
                 if (error) { return res.status(500).send({ error: error }) }
                 const response = {
-                    mensagem: 'Produto removido com sucesso!!',
+                    mensagem: 'Música removida com sucesso!!',
                     request: {
                         tipo: 'DELETE',
-                        descricao: 'Deleta um produto',
+                        descricao: 'Deleta uma música',
                         url: 'http://localhost:3000/produtos',
                         body: {
                             nome: 'String',
-                            preco: 'Number'
                         }
                     }
                 }
